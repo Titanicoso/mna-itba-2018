@@ -1,20 +1,22 @@
 import numpy as np
 
-def iterateQR(Q, R, A):
+def iterateQR(A):
 
-    maxIterations = 100
-    eigenvectors = Q
+    maxIterations = 1000
+    eigenvectors = np.identity(A.shape[0])
+    T = A
 
-    for i in range(0, maxIterations):
-        T = R * Q
-        (Q, R) = gramSchmidtQR(T)
-        eigenvectors = eigenvectors * Q
+    for i in range(maxIterations):
+        Q, R = householderQR(T)
+        T = R.dot(Q)
+        eigenvectors = eigenvectors.dot(Q)
+        if np.allclose(T, np.triu(T), atol = 1e-6):
+            break
 
-    eigenvalues = np.zeros((Q.shape[0]))
+    eigenvalues = np.diag(T)
 
-    for i in range(0, A.shape[0]):
-        eigenvalues[i] = T[i, i]
-    return eigenvalues, eigenvectors.A
+    sort = np.argsort(np.absolute(eigenvalues))[::-1]
+    return eigenvalues[sort], eigenvectors[sort]
 
 def gramSchmidtQR(A):
     m = A.shape[0]
@@ -31,9 +33,24 @@ def gramSchmidtQR(A):
             A1[0:m,j] = A1[0:m,j] - Q[:, k] * R[k,j]
     return (Q,R)
 
+def householderQR(A):
+    m,n = A.shape
+    R = np.matrix(A)
+    Q = np.identity(m)
+
+    for k in range(n):
+        norm = np.linalg.norm(R[k:,k])
+        s = -np.sign(R[k,k])
+        u = R[k,k] - s * norm
+        w = R[k:,k]/u
+        w[0] = 1
+        tau = -s * u/norm
+        R[k:, :] = R[k:, :] - (tau*w) * w.T.dot(R[k:, :])
+        Q[:, k:] = Q[:, k:] - (Q[:,k:] * w).dot((tau * w).T)
+    return Q, R
+
 def eigen(A):
     if A.shape[0] == A.shape[1]:
-        (Q, R) = gramSchmidtQR(A)
-        return iterateQR(Q,R,A)
+        return iterateQR(A)
     else:
         print("The matrix must be square")
