@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from sklearn import svm
 from numericalMethods import *
 
-mypath      = 'att_faces/'
+mypath      = '../att_faces/'
 onlydirs    = [f for f in listdir(mypath) if isdir(join(mypath, f))]
 
 #image size
@@ -35,7 +35,7 @@ per  = 0
 for dire in onlydirs:
     for k in range(1,trnperper+1):
         a = im.imread(mypath + dire + '/{}'.format(k) + '.pgm')
-        images[imno,:] = (np.reshape(a,[1,areasize])-127.5)/127.5
+        images[imno,:] = (np.reshape(a,[1,areasize]))/255.0
         person[imno,0] = per
         imno += 1
     per += 1
@@ -48,7 +48,7 @@ per  = 0
 for dire in onlydirs:
     for k in range(trnperper,10):
         a = im.imread(mypath + dire + '/{}'.format(k) + '.pgm')
-        imagetst[imno,:]  = (np.reshape(a,[1,areasize])-127.5)/127.5
+        imagetst[imno,:]  = (np.reshape(a,[1,areasize]))/255.0
         persontst[imno,0] = per
         imno += 1
     per += 1
@@ -106,4 +106,5 @@ axes.semilogy(range(nmax),(1-accs)*100)
 axes.set_xlabel('No. autocaras')
 axes.grid(which='Both')
 fig.suptitle('Error')
+plt.show()
 

@@ -12,7 +12,7 @@ from scipy import ndimage as im
 import numpy as np
 import matplotlib.pyplot as plt
 
-mypath      = 'att_faces/'
+mypath      = '../att_faces/'
 onlydirs    = [f for f in listdir(mypath) if isdir(join(mypath, f))]
 
 #image size

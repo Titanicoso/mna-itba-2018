@@ -2,7 +2,7 @@ import numpy as np
 
 def iterateQR(A):
 
-    maxIterations = 10
+    maxIterations = 100
     eigenvectors = np.identity(A.shape[0])
     T = A
 
