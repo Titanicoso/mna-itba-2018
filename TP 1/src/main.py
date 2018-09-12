@@ -19,7 +19,6 @@ IMAGE_DIR = config.get("DEFAULT", "IMAGE_DIR")
 TEST_NUMBER = config.getint("DEFAULT", "TEST_NUMBER")
 TRAINING_NUMBER = config.getint("DEFAULT", "TRAINING_NUMBER")
 METHOD = config.get("DEFAULT", "METHOD")
-# METHOD = 'KPCA'
 
 QUERY = config.get("DEFAULT", "QUERY")
 NUMBER_OF_EIGENFACES = config.getint("DEFAULT", "NUMBER_OF_EIGENFACES")
@@ -68,7 +67,6 @@ else:
     testImages = [testImages[k, :] - meanimage for k in range(testImages.shape[0])]
 
     S, V = rsvAndEigenValues(np.asmatrix(trainingImages))
-    print(V.shape[0])
     nmax = V.shape[0]
     accs = np.zeros([nmax, 1])
 
