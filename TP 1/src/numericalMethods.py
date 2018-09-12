@@ -60,7 +60,7 @@ def rsvAndEigenValues(A):
     if n > m:
         aux = A.dot(A.T)
         S, U = eigen(aux)
-        S = np.sqrt(S)
+        S = np.sqrt(abs(S))
         V = A.T.dot(U)
         S1 = np.diag(S)
         for k in range(S1.shape[0]):
