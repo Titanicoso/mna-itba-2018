@@ -2,7 +2,7 @@ import numpy as np
 
 def iterateQR(A):
 
-    maxIterations = 1000
+    maxIterations = 10
     eigenvectors = np.identity(A.shape[0])
     T = A
 
@@ -10,7 +10,7 @@ def iterateQR(A):
         Q, R = householderQR(T)
         T = R.dot(Q)
         eigenvectors = eigenvectors.dot(Q)
-        if np.allclose(T, np.triu(T), atol = 1e-6):
+        if np.allclose(T, np.triu(T), atol = 1e-4):
             break
 
     eigenvalues = np.diag(T)
@@ -54,3 +54,21 @@ def eigen(A):
         return iterateQR(A)
     else:
         print("The matrix must be square")
+
+def rsvAndEigenValues(A):
+    m,n = A.shape
+    if n > m:
+        aux = A.dot(A.T)
+        S, U = eigen(aux)
+        S = np.sqrt(S)
+        V = A.T.dot(U)
+        S1 = np.diag(S)
+        for k in range(S1.shape[0]):
+            S1[k,k] = 1/S1[k,k]
+
+        V = V.dot(S1)
+        return S, np.asmatrix(V.T)
+    aux = A.T.dot(A)
+    S,V = eigen(aux)
+    S = np.sqrt(S)
+    return S, np.asmatrix(V)
