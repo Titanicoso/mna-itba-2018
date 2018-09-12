@@ -10,6 +10,7 @@ from scipy import ndimage as im
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import svm
+from numericalMethods import *
 
 mypath      = 'att_faces/'
 onlydirs    = [f for f in listdir(mypath) if isdir(join(mypath, f))]
@@ -21,8 +22,8 @@ areasize    = horsize*versize
 
 #number of figures
 personno    = 40
-trnperper   = 9
-tstperper   = 1
+trnperper   = 6
+tstperper   = 4
 trnno       = personno*trnperper
 tstno       = personno*tstperper
 
@@ -55,7 +56,6 @@ for dire in onlydirs:
 #KERNEL: polinomial de grado degree
 degree = 2
 K = (np.dot(images,images.T)/trnno+1)**degree
-#K = (K + K.T)/2.0
         
 #esta transformación es equivalente a centrar las imágenes originales...
 unoM = np.ones([trnno,trnno])/trnno
@@ -63,13 +63,9 @@ K = K - np.dot(unoM,K) - np.dot(K,unoM) + np.dot(unoM,np.dot(K,unoM))
 
 
 #Autovalores y autovectores
-w,alpha = np.linalg.eigh(K)
-lambdas = w/trnno
+w, alpha = eigen(K)
 lambdas = w
 
-#Los autovalores vienen en orden descendente. Lo cambio 
-lambdas = np.flipud(lambdas)
-alpha   = np.fliplr(alpha)
 
 for col in range(alpha.shape[1]):
     alpha[:,col] = alpha[:,col]/np.sqrt(lambdas[col])
