@@ -114,7 +114,7 @@ else:
     clf.fit(improy, trainingNames)
 
     if METHOD == 'KPCA':
-        unoML = np.ones([test, training]) / training
+        unoML = np.ones([1, training]) / training
         Ktest = (np.dot(picture, trainingImages.T) / training + 1) ** degree
         Ktest = Ktest - np.dot(unoML, K) - np.dot(Ktest, unoM) + np.dot(unoML, np.dot(K, unoM))
         imtstproypre = np.dot(Ktest, alpha)
