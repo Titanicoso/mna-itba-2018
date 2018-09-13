@@ -40,7 +40,6 @@ if METHOD == 'KPCA':
     w, alpha = eigen(K)
     lambdas = w
 
-
     for col in range(alpha.shape[1]):
         alpha[:, col] = alpha[:, col] / np.sqrt(abs(lambdas[col]))
 
@@ -94,6 +93,8 @@ if QUERY == 'TEST':
     plt.show()
 
 else:
+    if NUMBER_OF_EIGENFACES >= nmax:
+        NUMBER_OF_EIGENFACES = nmax - 1
     path = QUERY
     picture = im.imread(path)
     fig, axes = plt.subplots(1, 1)
