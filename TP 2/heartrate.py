@@ -11,7 +11,7 @@ import cv2
 from scipy import signal
 from utils import *
 
-cap = cv2.VideoCapture('2017-09-14 21.53.59.mp4')
+cap = cv2.VideoCapture('Euge.mp4')
 
 length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
