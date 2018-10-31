@@ -3,3 +3,7 @@
 TP\ 1/src/__pycache__/*
 
 .DS_Store
+
+__init__\.py
+
+TP 2/__pycache__/
