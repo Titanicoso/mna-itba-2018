@@ -7,7 +7,7 @@ import configparser
 from utils import *
 
 config = configparser.ConfigParser()
-config.read("./src/config.ini")
+config.read("./config.ini")
 
 LOWER_BOUND = config.getint("DEFAULT", "LOWER_BOUND")
 UPPER_BOUND = config.getint("DEFAULT", "UPPER_BOUND")
