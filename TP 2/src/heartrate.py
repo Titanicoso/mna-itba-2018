@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cv2
 import configparser
 from utils import *
+import time
 
 config = configparser.ConfigParser()
 config.read("./config.ini")
@@ -50,7 +51,7 @@ if n > length:
     n = 2**int(np.log2(length))
 f = np.linspace(-n/2,n/2-1,n)*fps/n
 
-
+time1 = time.time()
 for k in range(0,3):
     data[k] = data[k][0,0:n] - np.mean(data[k][0,0:n])
     transformed[k] = np.abs(fftshift(fft(data[k])))**2
@@ -61,8 +62,10 @@ for k in range(0,3):
     plt.xlabel("frecuencia [1/minuto]")
     plt.xlim(0,200)
     plt.show()
+time2 = time.time()
 
 
+print("Tiempo: ", time2-time1, "s")
 print("Frecuencia cardiaca en R: ", abs(f[np.argmax(transformed[0])])*60, " pulsaciones por minuto")
 print("Frecuencia cardiaca en G: ", abs(f[np.argmax(transformed[1])])*60, " pulsaciones por minuto")
 print("Frecuencia cardiaca en B: ", abs(f[np.argmax(transformed[2])])*60, " pulsaciones por minuto")

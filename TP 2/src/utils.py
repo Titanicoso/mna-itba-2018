@@ -1,21 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-def iterativeFft(x):
-    x = np.asarray(x, dtype=float)
-    N = x.shape[0]
-    x = x.reshape(1,-1)
-
-    while x.shape[0] < N:
-        rows = x.shape[0]
-        cols = x.shape[1]
-        even = x[:, :(int(cols / 2))]
-        odd = x[:, (int(cols / 2)):]
-        exponential = np.exp(-1j * np.pi * np.arange(rows) / rows)[:, None]
-        x = np.concatenate([even + exponential * odd, even - exponential * odd])
-
-    return x.ravel()
-
 #https://en.wikipedia.org/wiki/Cooley–Tukey_FFT_algorithm code adapted to remove for
 def fft(x):
     n = x.shape[0]
